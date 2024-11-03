@@ -77,17 +77,6 @@ CREATE TABLE `Users` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Weekends`
---
-
-CREATE TABLE `Weekends` (
-  `id_weekend` int(70) NOT NULL,
-  `Weekend_date` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `Work_time`
 --
 
@@ -135,12 +124,6 @@ ALTER TABLE `Users`
   ADD UNIQUE KEY `id_vacation` (`id_vacation`),
   ADD KEY `Users_fk6` (`id_role`);
 
---
--- Indexes for table `Weekends`
---
-ALTER TABLE `Weekends`
-  ADD PRIMARY KEY (`id_weekend`),
-  ADD UNIQUE KEY `id_weekend` (`id_weekend`);
 
 --
 -- Indexes for table `Work_time`
@@ -181,11 +164,6 @@ ALTER TABLE `Roles`
 ALTER TABLE `Users`
   MODIFY `id_user` int(70) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT for table `Weekends`
---
-ALTER TABLE `Weekends`
-  MODIFY `id_weekend` int(70) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `Work_time`
@@ -209,8 +187,7 @@ ALTER TABLE `Users`
 ALTER TABLE `Work_time`
   ADD CONSTRAINT `Work_time_fk1` FOREIGN KEY (`id_user`) REFERENCES `Users` (`id_user`),
   ADD CONSTRAINT `Work_time_fk2` FOREIGN KEY (`id_activity`) REFERENCES `Activities` (`id_activity`),
-  ADD CONSTRAINT `Work_time_fk5` FOREIGN KEY (`id_holiday`) REFERENCES `Holidays` (`id_holiday`),
-  ADD CONSTRAINT `Work_time_fk6` FOREIGN KEY (`id_weekend`) REFERENCES `Weekends` (`id_weekend`);
+  ADD CONSTRAINT `Work_time_fk5` FOREIGN KEY (`id_holiday`) REFERENCES `Holidays` (`id_holiday`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

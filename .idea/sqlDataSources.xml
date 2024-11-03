@@ -5,4 +5,21 @@
       <data-sources db="581e875c-7870-48e6-81c0-defce7068a27" />
     </mapping>
   </component>
+  <component name="SqlDataSourceStorage">
+    <option name="dataSources">
+      <list>
+        <State>
+          <option name="id" value="cca8eddf-e2c7-4e9a-8144-36d6ff5621f7" />
+          <option name="name" value="curs_project" />
+          <option name="dbmsName" value="MYSQL" />
+          <option name="urls">
+            <array>
+              <option value="file://$PROJECT_DIR$/db/curs_project.sql" />
+            </array>
+          </option>
+          <option name="outLayout" value="File per object by schema.groovy" />
+        </State>
+      </list>
+    </option>
+  </component>
 </project>
