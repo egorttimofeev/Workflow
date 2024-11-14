@@ -72,3 +72,4 @@ def add_activity_to_db(login, activity_name, duration, date, is_busy):
             "date": date
         })
 
+

@@ -133,3 +133,4 @@ if __name__ == "__main__":
     user_info_window = UserInfoWindow(login)
     user_info_window.show()
     sys.exit(app.exec())
+
