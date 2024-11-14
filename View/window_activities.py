@@ -146,4 +146,3 @@ if __name__ == "__main__":
     main_window = MainWindow(login)
     main_window.show()
     sys.exit(app.exec())
-    
