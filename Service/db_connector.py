@@ -45,29 +45,26 @@ def get_user_info(login):
             }
         return None
 
-def add_activity_to_db(login, activity_name, duration, date, is_busy):
+def add_activities_to_db(activities):
     with engine.connect() as conn:
-        # Добавляем занятие в таблицу Activities
         query = text("""
-            INSERT INTO Activities (Activity_name, Duration, trigger_work, trigger_chill)
-            VALUES (:activity_name, :duration, :trigger_work, :trigger_chill)
+            INSERT INTO Activities (id_user, activity_name, duration, date, trigger_work, trigger_chill)
+            VALUES (:id_user, :activity_name, :duration, :date, :trigger_work, :trigger_chill)
         """)
-        result = conn.execute(query, {
-            "activity_name": activity_name,
-            "duration": duration,
-            "trigger_work": is_busy,
-            "trigger_chill": not is_busy
-        })
-        
-        # Получаем id добавленного занятия
-        activity_id = result.lastrowid
-        
-        # Добавляем запись в таблицу Work_activities
+        for activity in activities:
+            conn.execute(query, {
+                "id_user": activity["id_user"],
+                "activity_name": activity["activity_name"],
+                "duration": activity["duration"],
+                "date": activity["date"],
+                "trigger_work": activity["trigger_work"],
+                "trigger_chill": activity["trigger_chill"]
+            })
+
+def get_time_sheet(login):
+    with engine.connect() as conn:
         query = text("""
-            INSERT INTO Work_activities (id_activity, date)
-            VALUES (:id_activity, :date)
+            SELECT * FROM Activities WHERE id_user = (SELECT id_user FROM Users WHERE login = :login)
         """)
-        conn.execute(query, {
-            "id_activity": activity_id,
-            "date": date
-        })
+        result = conn.execute(query, {"login": login})
+        return result.fetchall()
