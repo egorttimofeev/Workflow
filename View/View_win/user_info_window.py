@@ -1,16 +1,17 @@
 from PyQt6 import QtCore, QtWidgets
 import sys
-from user_info_w_service import *
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from View_service.user_info_w_service import *
 
 class UserInfoWindow(QtWidgets.QMainWindow):
-    def __init__(self, login, parent=None):
-        super(UserInfoWindow, self).__init__(parent)
-        self.setupUi(self, login)
-        
-    def setupUi(self, UserInfoWindow, login):
-        UserInfoWindow.setObjectName("UserInfoWindow")
-        UserInfoWindow.resize(657, 430)
-        self.centralwidget = QtWidgets.QWidget(UserInfoWindow)
+    def __init__(self):
+        super().__init__()
+        self.User_Ui()
+
+    def User_Ui(self):
+        self.resize(657, 430)
+        self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
         self.label_first_name = QtWidgets.QLabel(self.centralwidget)
@@ -64,24 +65,35 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.button_tabel = QtWidgets.QPushButton("Табель учета", self.centralwidget)
         self.button_tabel.setGeometry(QtCore.QRect(510, 50, 141, 32))
         self.button_tabel.setObjectName("button_tabel")
-        self.button_tabel.clicked.connect(lambda: open_window(self, login, 'admin'))
+        self.button_tabel.clicked.connect(self.open_time_sheet_window)
 
         self.button_add_activity = QtWidgets.QPushButton("Добавить занятия", self.centralwidget)
         self.button_add_activity.setGeometry(QtCore.QRect(510, 10, 141, 32))
         self.button_add_activity.setObjectName("button_add_activity")
-        self.button_add_activity.clicked.connect(lambda: open_window(self, login, 'employee'))
+        self.button_add_activity.clicked.connect(self.open_activities_window)
 
-        UserInfoWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(UserInfoWindow)
+        self.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
-        UserInfoWindow.setStatusBar(self.statusbar)
+        self.setStatusBar(self.statusbar)
 
-        retranslateUi(self, UserInfoWindow, login)
-        QtCore.QMetaObject.connectSlotsByName(UserInfoWindow)
+        retranslateUi(self)
+        QtCore.QMetaObject.connectSlotsByName(self)
+
+    def open_time_sheet_window(self):
+        from View_win.time_sheet_window import MainWindow as TimeSheetWindow
+        self.time_sheet_window = TimeSheetWindow()
+        self.time_sheet_window.show()
+        self.close()
+
+    def open_activities_window(self):
+        from View_win.activities_window import Activities_Window
+        self.activities_window = Activities_Window()
+        self.activities_window.show()
+        self.close()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    login = "example_login"  # Замените на реальный логин пользователя
-    user_info_window = UserInfoWindow(login)
-    user_info_window.show()
+    window = UserInfoWindow()
+    window.show()
     sys.exit(app.exec())

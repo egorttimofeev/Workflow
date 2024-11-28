@@ -1,6 +1,8 @@
 from PyQt6 import QtCore, QtWidgets
 import sys
-from time_sheet_w_service import open_user_info_window, add_activity, show_employees, show_employee_details
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from View_service.time_sheet_w_service import *
 
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self, login, parent=None):
@@ -56,7 +58,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    login = "example_login"  # Замените на реальный логин пользователя
+    login = "1"  # Замените на реальный логин пользователя
     main_window = MainWindow(login)
     main_window.show()
     sys.exit(app.exec())

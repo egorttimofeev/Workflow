@@ -1,41 +1,39 @@
-class User_Data():
-    def __init__(self, First_name, Last_name, Surname, Login, Password):
+from enum import IntEnum
+
+class User_Role(IntEnum):
+    EMPLOYEE = 1
+    BOSS = 2
+    HR_DEPARTMENT = 3
+
+class User:
+    def __init__(self, id_user, Role, First_name, Last_name, Surname, Login, Password, Phone_number, Birthday, Passport, Place_of_registration, Place_of_residence, Family, Conscription, Education):
+        self.id_user = id_user
+        self.__role = int(Role)
         self.First_name = str(First_name)
         self.Last_name = str(Last_name)
         self.Surname = str(Surname)
         self.Login = str(Login)
         self.Password = str(Password)
+        self.Phone_number = str(Phone_number)
+        self.Birthday = str(Birthday)
+        self.Passport = str(Passport)
+        self.Place_of_registration = str(Place_of_registration)
+        self.Place_of_residence = str(Place_of_residence)
+        self.Family = str(Family)
+        self.Conscription = str(Conscription)
+        self.Education = str(Education)
 
     @property
     def full_name(self):
         return f"{self.First_name} {self.Last_name} {self.Surname}"
 
-    def get_first_name(self):
-        return self.First_name
+    @property
+    def role_name(self):
+        return User_Role(self.__role).name
 
-    def set_first_name(self, first_name):
-        self.First_name = str(first_name)
+    @property
+    def Role(self):
+        return self.__role
 
-    def get_last_name(self):
-        return self.Last_name
-
-    def set_last_name(self, last_name):
-        self.Last_name = str(last_name)
-
-    def get_surname(self):
-        return self.Surname
-
-    def set_surname(self, surname):
-        self.Surname = str(surname)
-
-    def get_login(self):
-        return self.Login
-
-    def set_login(self, login):
-        self.Login = str(login)
-
-    def get_password(self):
-        return self.Password
-
-    def set_password(self, password):
-        self.Password = str(password)
+    def __get_role_name(self):
+        return User_Role(self.__role).name

@@ -1,15 +1,17 @@
 from PyQt6 import QtCore, QtWidgets
 import sys
-from auth_w_service import *
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from View_service.auth_w_service import *   
 
-class AuthWindow(QtWidgets.QMainWindow):
-    def __init__(self, parent=None):
-        super(AuthWindow, self).__init__(parent)
-        self.setupUi(self)
+class Auth_Window(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.Auth_Ui()
 
-    def setupUi(self):
-        AuthWindow.resize(657, 430)
-        self.centralwidget = QtWidgets.QWidget(AuthWindow)
+    def Auth_Ui(self):
+        self.resize(657, 430)
+        self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
         self.label = QtWidgets.QLabel("Введите логин и пароль", self.centralwidget)
@@ -37,22 +39,22 @@ class AuthWindow(QtWidgets.QMainWindow):
         self.pushButton_2 = QtWidgets.QPushButton("Войти", self.centralwidget)
         self.pushButton_2.setGeometry(QtCore.QRect(260, 280, 113, 32))
         self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_2.clicked.connect(lambda: authorize(self))
+        self.pushButton_2.clicked.connect(lambda: get_auth(self))
 
-        AuthWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(AuthWindow)
+        self.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
-        AuthWindow.setStatusBar(self.statusbar)
+        self.setStatusBar(self.statusbar)
 
-        self.retranslateUi(AuthWindow)
-        QtCore.QMetaObject.connectSlotsByName(AuthWindow)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        AuthWindow.setWindowTitle(_translate("AuthWindow", "Авторизация"))
+        self.setWindowTitle(_translate("Auth_Window", "Авторизация"))
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    main_window = AuthWindow()
-    main_window.show()
+    window = Auth_Window()
+    window.show()
     sys.exit(app.exec())

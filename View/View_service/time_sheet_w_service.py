@@ -2,7 +2,7 @@ from PyQt6 import QtWidgets, QtCore
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from Service.db_connector import get_time_sheet
+from Service.db_service import get_time_sheet
 
 def open_user_info_window(self, login):
     from View.user_info_window import UserInfoWindow

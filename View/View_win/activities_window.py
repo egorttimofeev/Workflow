@@ -1,23 +1,23 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 import sys
-from activities_w_service import add_activity, open_user_info_window
+from View_service.activities_w_service import *
 
-class ActivitiesWindow(QtWidgets.QMainWindow):
-    def __init__(self, id_user, parent=None):
-        super(ActivitiesWindow, self).__init__(parent)
-        self.setupUi(self, id_user)
+class Activities_Window(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.id_user = 1
+        self.Activities_Ui()
 
-    def setupUi(self, ActivitiesWindow, id_user):
-        ActivitiesWindow.setObjectName("ActivitiesWindow")
-        ActivitiesWindow.resize(657, 430)
-        self.centralwidget = QtWidgets.QWidget(ActivitiesWindow)
+    def Activities_Ui(self):
+        self.resize(657, 430)
+        self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(510, 10, 141, 32))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setText("Личный кабинет")
-        self.pushButton.clicked.connect(lambda: open_user_info_window(self, id_user))
+        self.pushButton.clicked.connect(lambda: open_user_info_window(self))
 
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(20, 70, 271, 21))
@@ -37,7 +37,7 @@ class ActivitiesWindow(QtWidgets.QMainWindow):
         self.pushButton_3.setGeometry(QtCore.QRect(20, 270, 113, 32 ))
         self.pushButton_3.setObjectName("pushButton_3")
         self.pushButton_3.setText("Добавить")
-        self.pushButton_3.clicked.connect(lambda: add_activity(self, id_user))
+        self.pushButton_3.clicked.connect(lambda: add_activity(self))
 
 
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -87,26 +87,25 @@ class ActivitiesWindow(QtWidgets.QMainWindow):
         self.listWidget.setGeometry(QtCore.QRect(300, 50, 341, 345))
         self.listWidget.setObjectName("listWidget")
 
-        ActivitiesWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(ActivitiesWindow)
+        self.setCentralWidget(self.centralwidget)
+        self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
-        ActivitiesWindow.setStatusBar(self.statusbar)
+        self.setStatusBar(self.statusbar)
 
-        self.retranslateUi(ActivitiesWindow)
-        QtCore.QMetaObject.connectSlotsByName(ActivitiesWindow)
+        self.retranslateUi()
+        QtCore.QMetaObject.connectSlotsByName(self)
 
         self.activities = []
         self.total_time = 0
         self.busy_time = 0
         self.free_time = 0
 
-    def retranslateUi(self, MainWindow):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Табель учета"))
+        self.setWindowTitle(_translate("MainWindow", "Табель учета"))
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    id_user = 1  # Замените на реальный id пользователя
-    main_window = ActivitiesWindow(id_user)
-    main_window.show()
+    window = Activities_Window()
+    window.show()
     sys.exit(app.exec())
