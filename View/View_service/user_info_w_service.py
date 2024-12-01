@@ -10,10 +10,16 @@ def retranslateUi(self):
 
     self.user = User_Service().authorised_user
     if self.user:
-        self.label_first_name.setText(_translate("UserInfoWindow", f"Имя: {self.user.First_name}"))
-        self.label_last_name.setText(_translate("UserInfoWindow", f"Фамилия: {self.user.Last_name}"))
-        self.label_surname.setText(_translate("UserInfoWindow", f"Отчество: {self.user.Surname}"))
-        self.label_role.setText(_translate("UserInfoWindow", f"Роль: {self.user.Role}"))
+        role_name = {
+            1: "Сотрудник",
+            2: "Начальник",
+            3: "Отдел кадров"
+        }.get(self.user.Role, "Неизвестная роль")
+
+        full_name = f"{self.user.First_name} {self.user.Last_name} {self.user.Surname}"
+
+        self.label_full_name.setText(_translate("UserInfoWindow", f"ФИО: {full_name}"))
+        self.label_role.setText(_translate("UserInfoWindow", f"Роль: {role_name}"))
         self.label_phone_number.setText(_translate("UserInfoWindow", f"Телефон: {self.user.Phone_number}"))
         self.label_birthday.setText(_translate("UserInfoWindow", f"День рождения: {self.user.Birthday}"))
         self.label_family.setText(_translate("UserInfoWindow", f"Семейное положение: {self.user.Family}"))
@@ -26,9 +32,7 @@ def retranslateUi(self):
         if self.user.Role == User_Role.EMPLOYEE:
             self.button_tabel.hide()
     else:
-        self.label_first_name.setText(_translate("UserInfoWindow", "Имя: Не найдено"))
-        self.label_last_name.setText(_translate("UserInfoWindow", "Фамилия: Не найдено"))
-        self.label_surname.setText(_translate("UserInfoWindow", "Отчество: Не найдено"))
+        self.label_full_name.setText(_translate("UserInfoWindow", "ФИО: Не найдено"))
         self.label_role.setText(_translate("UserInfoWindow", "Роль: Не найдено"))
         self.label_phone_number.setText(_translate("UserInfoWindow", "Телефон: Не найдено"))
         self.label_birthday.setText(_translate("UserInfoWindow", "День рождения: Не найдено"))

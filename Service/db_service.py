@@ -37,3 +37,32 @@ class Database_Service():
         except Exception as e:
             print(f"Ошибка добавления активности: {e}")  # Логируем ошибку
             return Query_Result(None, e)
+
+    def get_activities_by_date(self, date):
+        try:
+            with self.__engine.connect() as conn:
+                query = text("""
+                    SELECT u.id_user, CONCAT(u.first_name, ' ', u.last_name, ' ', u.surname) as full_name, a.duration
+                    FROM Activities a
+                    JOIN Users u ON a.id_user = u.id_user
+                    WHERE a.date = :date
+                """)
+                result = conn.execute(query, {"date": date}).fetchall()
+                return Query_Result(result, None)
+        except Exception as e:
+            return Query_Result(None, e)
+
+    def get_activities_by_employee_and_date(self, employee_name, date):
+        try:
+            with self.__engine.connect() as conn:
+                query = text("""
+                    SELECT a.activity_name, a.duration, a.is_busy
+                    FROM Activities a
+                    JOIN Users u ON a.id_user = u.id_user
+                    WHERE CONCAT(u.first_name, ' ', u.last_name, ' ', u.surname) = :employee_name
+                    AND a.date = :date
+                """)
+                result = conn.execute(query, {"employee_name": employee_name, "date": date}).fetchall()
+                return Query_Result(result, None)
+        except Exception as e:
+            return Query_Result(None, e)

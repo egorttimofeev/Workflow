@@ -3,6 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from View_service.user_info_w_service import *
+from View_win.time_sheet_window import Time_Sheet
 
 class UserInfoWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -14,40 +15,32 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
-        self.label_first_name = QtWidgets.QLabel(self.centralwidget)
-        self.label_first_name.setGeometry(QtCore.QRect(20, 40, 290, 30))
-        self.label_first_name.setObjectName("label_first_name")
-
-        self.label_last_name = QtWidgets.QLabel(self.centralwidget)
-        self.label_last_name.setGeometry(QtCore.QRect(20, 80, 290, 30))
-        self.label_last_name.setObjectName("label_last_name")
-
-        self.label_surname = QtWidgets.QLabel(self.centralwidget)
-        self.label_surname.setGeometry(QtCore.QRect(20, 120, 290, 30))
-        self.label_surname.setObjectName("label_surname")
+        self.label_full_name = QtWidgets.QLabel(self.centralwidget)
+        self.label_full_name.setGeometry(QtCore.QRect(20, 40, 290, 30))
+        self.label_full_name.setObjectName("label_full_name")
 
         self.label_role = QtWidgets.QLabel(self.centralwidget)
-        self.label_role.setGeometry(QtCore.QRect(20, 160, 290, 30))
+        self.label_role.setGeometry(QtCore.QRect(20, 80, 290, 30))
         self.label_role.setObjectName("label_role")
 
         self.label_phone_number = QtWidgets.QLabel(self.centralwidget)
-        self.label_phone_number.setGeometry(QtCore.QRect(20, 200, 290, 30))
+        self.label_phone_number.setGeometry(QtCore.QRect(20, 120, 290, 30))
         self.label_phone_number.setObjectName("label_phone_number")
 
         self.label_birthday = QtWidgets.QLabel(self.centralwidget)
-        self.label_birthday.setGeometry(QtCore.QRect(20, 240, 290, 30))
+        self.label_birthday.setGeometry(QtCore.QRect(20, 160, 290, 30))
         self.label_birthday.setObjectName("label_birthday")
 
         self.label_family = QtWidgets.QLabel(self.centralwidget)
-        self.label_family.setGeometry(QtCore.QRect(20, 280, 290, 30))
+        self.label_family.setGeometry(QtCore.QRect(20, 200, 290, 30))
         self.label_family.setObjectName("label_family")
 
         self.label_conscription = QtWidgets.QLabel(self.centralwidget)
-        self.label_conscription.setGeometry(QtCore.QRect(20, 320, 290, 30))
+        self.label_conscription.setGeometry(QtCore.QRect(20, 240, 290, 30))
         self.label_conscription.setObjectName("label_conscription")
 
         self.label_education = QtWidgets.QLabel(self.centralwidget)
-        self.label_education.setGeometry(QtCore.QRect(20, 360, 290, 30))
+        self.label_education.setGeometry(QtCore.QRect(20, 280, 290, 30))
         self.label_education.setObjectName("label_education")
 
         self.label_passport = QtWidgets.QLabel(self.centralwidget)
@@ -81,10 +74,12 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def open_time_sheet_window(self):
-        from View_win.time_sheet_window import MainWindow as TimeSheetWindow
-        self.time_sheet_window = TimeSheetWindow()
-        self.time_sheet_window.show()
-        self.close()
+        user_service = User_Service()
+        current_user = user_service.authorised_user
+        if current_user:
+            self.time_sheet_window = Time_Sheet(current_user.Login)
+            self.time_sheet_window.show()
+            self.close()
 
     def open_activities_window(self):
         from View_win.activities_window import Activities_Window

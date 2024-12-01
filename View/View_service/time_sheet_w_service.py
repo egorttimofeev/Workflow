@@ -2,34 +2,58 @@ from PyQt6 import QtWidgets, QtCore
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from Service.db_service import get_time_sheet
+from Service.db_service import *
 
 def open_user_info_window(self, login):
-    from View.user_info_window import UserInfoWindow
+    from View_win.user_info_window import UserInfoWindow
     self.user_info_window = UserInfoWindow(login)
     self.user_info_window.show()
     self.centralwidget.window().close()
 
 def add_activity(self, login):
-    from View.activities_window import MainWindow as EmployeeMainWindow
-    self.employee_window = EmployeeMainWindow(login)
-    self.employee_window.show()
+    from View_win.activities_window import Activities_Window
+    self.activities_window = Activities_Window()
+    self.activities_window.show()
     self.centralwidget.window().close()
 
 def show_employees(self):
     self.listWidget.clear()
-    # This is where you would query the database for employees who logged activities on the selected date
-    # For now, we'll leave it empty for database integration later
+    selected_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+    db_service = Database_Service()
+    query_result = db_service.get_activities_by_date(selected_date)
+    
+    if query_result.error:
+        QtWidgets.QMessageBox.critical(self.centralwidget, "Ошибка", f"Ошибка получения данных: {query_result.error}")
+        return
+
+    activities = query_result.result
+    user_activities = {}
+    
+    for activity in activities:
+        user_id = activity[0]  # Индекс 0 для user_id
+        full_name = activity[1]  # Индекс 1 для full_name
+        duration = activity[2]  # Индекс 2 для duration
+        if user_id not in user_activities:
+            user_activities[user_id] = {
+                'full_name': full_name,
+                'total_time': 0
+            }
+        user_activities[user_id]['total_time'] += duration
+
+    for user_id, data in user_activities.items():
+        hours, minutes = divmod(data['total_time'], 60)
+        self.listWidget.addItem(f"{data['full_name']} - {hours} час. {minutes} мин.")
 
 def show_employee_details(self, item):
     employee_name = item.text().split(" - ")[0]
-    self.details_window = QtWidgets.QWidget()
+    selected_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+    self.details_window = QtWidgets.QMainWindow()
     self.details_ui = Ui_EmployeeDetails()
-    self.details_ui.setupUi(self.details_window, employee_name)
+    self.details_ui.setupUi(self.details_window, employee_name, selected_date)
     self.details_window.show()
 
 class Ui_EmployeeDetails(object):
-    def setupUi(self, DetailsWindow, employee_name):
+    def setupUi(self, DetailsWindow, employee_name, selected_date):
         DetailsWindow.setObjectName("DetailsWindow")
         DetailsWindow.resize(400, 300)
         self.centralwidget = QtWidgets.QWidget(DetailsWindow)
@@ -38,7 +62,7 @@ class Ui_EmployeeDetails(object):
         self.label_name = QtWidgets.QLabel(self.centralwidget)
         self.label_name.setGeometry(QtCore.QRect(20, 20, 200, 20))
         self.label_name.setObjectName("label_name")
-        self.label_name.setText(f"ФИО: {employee_name}")
+        self.label_name.setText(f"{employee_name}")
 
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
         self.listWidget.setGeometry(QtCore.QRect(20, 60, 360, 150))
@@ -60,18 +84,36 @@ class Ui_EmployeeDetails(object):
         self.retranslateUi(DetailsWindow)
         QtCore.QMetaObject.connectSlotsByName(DetailsWindow)
 
-        self.show_employee_activities()
+        self.show_employee_activities(employee_name, selected_date)
 
     def retranslateUi(self, DetailsWindow):
         _translate = QtCore.QCoreApplication.translate
-        DetailsWindow.setWindowTitle(_translate("DetailsWindow", "Employee Details"))
+        DetailsWindow.setWindowTitle(_translate("DetailsWindow", "Информация о времени сотрудника за день"))
 
-    def show_employee_activities(self):
-        # This is where you would query the database for the employee's activities
-        # For now, we'll leave it empty for database integration later
+    def show_employee_activities(self, employee_name, selected_date):
+        db_service = Database_Service()
+        query_result = db_service.get_activities_by_employee_and_date(employee_name, selected_date)
+        
+        if query_result.error:
+            QtWidgets.QMessageBox.critical(self.centralwidget, "Ошибка", f"Ошибка получения данных: {query_result.error}")
+            return
+
+        activities = query_result.result
         work_time = 0
         free_time = 0
+
+        for activity in activities:
+            self.listWidget.addItem(f"{activity[0]} - {activity[1]} мин.")  # Индексы для activity_name и duration
+            if activity[2]:  # Индекс для is_busy
+                work_time += activity[1]
+            else:
+                free_time += activity[1]
+
         total_time = work_time + free_time
-        self.label_work_time.setText(f"Рабочее время: {work_time} ч.")
-        self.label_free_time.setText(f"Свободное время: {free_time} ч.")
-        self.label_total_time.setText(f"Общее время: {total_time} ч.")
+        work_hours, work_minutes = divmod(work_time, 60)
+        free_hours, free_minutes = divmod(free_time, 60)
+        total_hours, total_minutes = divmod(total_time, 60)
+
+        self.label_work_time.setText(f"Рабочее время: {work_hours} часов {work_minutes} минут")
+        self.label_free_time.setText(f"Свободное время: {free_hours} часов {free_minutes} минут")
+        self.label_total_time.setText(f"Общее время: {total_hours} часов {total_minutes} минут")
