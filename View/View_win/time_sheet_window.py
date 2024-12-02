@@ -21,13 +21,13 @@ class Time_Sheet_UI(object):
         self.pushButton.setGeometry(QtCore.QRect(510, 10, 141, 32))
         self.pushButton.setObjectName("pushButton")
         self.pushButton.setText("Личный кабинет")
-        self.pushButton.clicked.connect(lambda: open_user_info_window(self, login))
+        self.pushButton.clicked.connect(lambda: open_user_info_window(self))
 
         self.pushButton_add_activity = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_add_activity.setGeometry(QtCore.QRect(510, 50, 141, 32))
         self.pushButton_add_activity.setObjectName("pushButton_add_activity")
         self.pushButton_add_activity.setText("Добавить занятия")
-        self.pushButton_add_activity.clicked.connect(lambda: add_activity(self, login))
+        self.pushButton_add_activity.clicked.connect(lambda: add_activity(self))
 
         self.calendarWidget = QtWidgets.QCalendarWidget(self.centralwidget)
         self.calendarWidget.setGeometry(QtCore.QRect(0, 0, 221, 341))
