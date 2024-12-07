@@ -86,9 +86,3 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.activities_window = Activities_Window()
         self.activities_window.show()
         self.close()
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = UserInfoWindow()
-    window.show()
-    sys.exit(app.exec())

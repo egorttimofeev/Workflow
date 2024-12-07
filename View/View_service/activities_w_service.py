@@ -9,8 +9,8 @@ def add_activity(self):
     activity_name = self.lineEdit.text().strip()
     duration = self.task_time.value()
     date = self.dateEdit.date().toString("yyyy-MM-dd")
-    is_busy = self.radioButton.isChecked()  # Занятое время
-    trigger_chill = self.radioButton_2.isChecked()  # Свободное время
+    is_busy = self.radioButton.isChecked()
+    trigger_chill = self.radioButton_2.isChecked()
 
     # Проверка заполненности полей
     if not activity_name:

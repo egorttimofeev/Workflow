@@ -4,16 +4,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Service.db_service import *
 
-def open_user_info_window(self, login):
+def open_user_info_window(self):
     from View_win.user_info_window import UserInfoWindow
-    self.user_info_window = UserInfoWindow(login)
+    self.user_info_window = UserInfoWindow()
     self.user_info_window.show()
-    self.centralwidget.window().close()
-
-def add_activity(self, login):
-    from View_win.activities_window import Activities_Window
-    self.activities_window = Activities_Window()
-    self.activities_window.show()
     self.centralwidget.window().close()
 
 def show_employees(self):
@@ -69,15 +63,15 @@ class Ui_EmployeeDetails(object):
         self.listWidget.setObjectName("listWidget")
 
         self.label_work_time = QtWidgets.QLabel(self.centralwidget)
-        self.label_work_time.setGeometry(QtCore.QRect(20, 220, 200, 20))
+        self.label_work_time.setGeometry(QtCore.QRect(20, 210, 250, 20))
         self.label_work_time.setObjectName("label_work_time")
 
         self.label_free_time = QtWidgets.QLabel(self.centralwidget)
-        self.label_free_time.setGeometry(QtCore.QRect(20, 250, 200, 20))
+        self.label_free_time.setGeometry(QtCore.QRect(20, 240, 250, 20))
         self.label_free_time.setObjectName("label_free_time")
 
         self.label_total_time = QtWidgets.QLabel(self.centralwidget)
-        self.label_total_time.setGeometry(QtCore.QRect(20, 280, 200, 20))
+        self.label_total_time.setGeometry(QtCore.QRect(20, 270, 250, 20))
         self.label_total_time.setObjectName("label_total_time")
 
         DetailsWindow.setCentralWidget(self.centralwidget)

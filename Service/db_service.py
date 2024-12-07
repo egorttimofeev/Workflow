@@ -3,9 +3,14 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Data.query_result_data import *
+import configparser
+
+config = configparser.ConfigParser()
+config.read(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'config.txt'))
+db_url = config['database']['db_url']
 
 class Database_Service():
-    __engine = create_engine('mysql+mysqlconnector://root:root@localhost:8889/curs_project')
+    __engine = create_engine(db_url)
 
     def get_user_db(self, login):
         try:

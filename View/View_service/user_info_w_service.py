@@ -18,7 +18,7 @@ def retranslateUi(self):
 
         full_name = f"{self.user.First_name} {self.user.Last_name} {self.user.Surname}"
 
-        self.label_full_name.setText(_translate("UserInfoWindow", f"ФИО: {full_name}"))
+        self.label_full_name.setText(_translate("UserInfoWindow", f"{full_name}"))
         self.label_role.setText(_translate("UserInfoWindow", f"Роль: {role_name}"))
         self.label_phone_number.setText(_translate("UserInfoWindow", f"Телефон: {self.user.Phone_number}"))
         self.label_birthday.setText(_translate("UserInfoWindow", f"День рождения: {self.user.Birthday}"))

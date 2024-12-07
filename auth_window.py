@@ -2,7 +2,7 @@ from PyQt6 import QtCore, QtWidgets
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from View_service.auth_w_service import *   
+from View.View_service.auth_w_service import *   
 
 class Auth_Window(QtWidgets.QMainWindow):
     def __init__(self):

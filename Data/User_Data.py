@@ -3,7 +3,6 @@ from enum import IntEnum
 class User_Role(IntEnum):
     EMPLOYEE = 1
     BOSS = 2
-    HR_DEPARTMENT = 3
 
 class User:
     def __init__(self, id_user, Role, First_name, Last_name, Surname, Login, Password, Phone_number, Birthday, Passport, Place_of_registration, Place_of_residence, Family, Conscription, Education):

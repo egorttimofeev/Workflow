@@ -1,0 +1,2 @@
+[database]
+db_url = mysql+pymysql://egorttimofeev:egorttimofeev32!@109.196.102.132:3306/curs_project

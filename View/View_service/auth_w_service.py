@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from Service.user_service import *
-from View_win.user_info_window import UserInfoWindow
+from View.View_win.user_info_window import UserInfoWindow
 
 
 def open_user_info_window(self):
@@ -23,7 +23,5 @@ def get_auth(self):
             open_user_info_window(self)
         elif user.Role == User_Role.BOSS:
             open_user_info_window(self)
-        elif user.Role == User_Role.HR_DEPARTMENT:
-            print(f"Отдел кадров {user.full_name}")
     else:
        QtWidgets.QMessageBox.critical(self, "Ошибка", result)

@@ -1,11 +1,9 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-import sys
 from View_service.activities_w_service import *
 
 class Activities_Window(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.id_user = 1
         self.Activities_Ui()
 
     def Activities_Ui(self):
@@ -16,7 +14,7 @@ class Activities_Window(QtWidgets.QMainWindow):
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(510, 10, 141, 32))
         self.pushButton.setObjectName("pushButton")
-        self.pushButton.setText("Личный кабинет")
+        self.pushButton.setText("Назад")
         self.pushButton.clicked.connect(lambda: open_user_info_window(self))
 
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
@@ -26,6 +24,7 @@ class Activities_Window(QtWidgets.QMainWindow):
         self.task_time = QtWidgets.QSpinBox(self.centralwidget)
         self.task_time.setGeometry(QtCore.QRect(20, 160, 277, 24))
         self.task_time.setObjectName("task_time")
+        self.task_time.setRange(0, 999)
 
         self.dateEdit = QtWidgets.QDateEdit(self.centralwidget)
         self.dateEdit.setGeometry(QtCore.QRect(20, 105, 277, 24))
@@ -102,10 +101,4 @@ class Activities_Window(QtWidgets.QMainWindow):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("MainWindow", "Табель учета"))
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = Activities_Window()
-    window.show()
-    sys.exit(app.exec())
+        self.setWindowTitle(_translate("MainWindow", "Добавить занятия"))
