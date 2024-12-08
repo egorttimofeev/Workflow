@@ -1,0 +1,82 @@
+
+This file lists modules PyInstaller was not able to find. This does not
+necessarily mean this module is required for running your program. Python and
+Python 3rd-party packages include a lot of conditional or optional modules. For
+example the module 'ntpath' only exists on Windows, whereas the module
+'posixpath' only exists on Posix systems.
+
+Types if import:
+* top-level: imported at the top-level - look at these first
+* conditional: imported within an if-statement
+* delayed: imported within a function
+* optional: imported within a try-except-statement
+
+IMPORTANT: Do NOT post this list to the issue-tracker. Use it as a basis for
+            tracking down the missing module yourself. Thanks!
+
+missing module named _winapi - imported by ntpath (optional), encodings (delayed, conditional, optional), shutil (conditional), subprocess (conditional), multiprocessing.connection (optional), multiprocessing.spawn (delayed, conditional), multiprocessing.reduction (conditional), multiprocessing.shared_memory (conditional), multiprocessing.heap (conditional), multiprocessing.popen_spawn_win32 (top-level), asyncio.windows_events (top-level), asyncio.windows_utils (top-level), mimetypes (optional)
+missing module named winreg - imported by importlib._bootstrap_external (conditional), platform (delayed, optional), mimetypes (optional), urllib.request (delayed, conditional, optional), requests.utils (delayed, conditional, optional), pkg_resources._vendor.platformdirs.windows (delayed, optional)
+missing module named nt - imported by os (delayed, conditional, optional), ntpath (optional), shutil (conditional), importlib._bootstrap_external (conditional), ctypes (delayed, conditional)
+missing module named _frozen_importlib_external - imported by importlib._bootstrap (delayed), importlib (optional), importlib.abc (optional), zipimport (top-level)
+excluded module named _frozen_importlib - imported by importlib (optional), importlib.abc (optional), zipimport (top-level)
+missing module named pyimod02_importers - imported by /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PyInstaller/hooks/rthooks/pyi_rth_pkgutil.py (delayed), /Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/PyInstaller/hooks/rthooks/pyi_rth_pkgres.py (delayed)
+missing module named msvcrt - imported by subprocess (optional), multiprocessing.spawn (delayed, conditional), multiprocessing.popen_spawn_win32 (top-level), asyncio.windows_events (top-level), asyncio.windows_utils (top-level), getpass (optional)
+missing module named _manylinux - imported by pkg_resources._vendor.packaging._manylinux (delayed, optional), packaging._manylinux (delayed, optional)
+missing module named jnius - imported by pkg_resources._vendor.platformdirs.android (delayed, optional)
+missing module named platformdirs - imported by pkg_resources._vendor.platformdirs.__main__ (top-level)
+missing module named 'pkg_resources.extern.importlib_resources' - imported by pkg_resources._vendor.jaraco.text (optional)
+missing module named 'pkg_resources.extern.more_itertools' - imported by pkg_resources._vendor.jaraco.functools (top-level)
+missing module named pkg_resources.extern.packaging - imported by pkg_resources.extern (top-level), pkg_resources (top-level)
+missing module named pkg_resources.extern.platformdirs - imported by pkg_resources.extern (top-level), pkg_resources (top-level)
+missing module named 'pkg_resources.extern.jaraco' - imported by pkg_resources (top-level), pkg_resources._vendor.jaraco.text (top-level)
+missing module named vms_lib - imported by platform (delayed, optional)
+missing module named 'java.lang' - imported by platform (delayed, optional)
+missing module named java - imported by platform (delayed)
+missing module named _winreg - imported by platform (delayed, optional)
+missing module named _wmi - imported by platform (optional)
+missing module named multiprocessing.BufferTooShort - imported by multiprocessing (top-level), multiprocessing.connection (top-level)
+missing module named multiprocessing.AuthenticationError - imported by multiprocessing (top-level), multiprocessing.connection (top-level)
+missing module named multiprocessing.get_context - imported by multiprocessing (top-level), multiprocessing.pool (top-level), multiprocessing.managers (top-level), multiprocessing.sharedctypes (top-level)
+missing module named multiprocessing.TimeoutError - imported by multiprocessing (top-level), multiprocessing.pool (top-level)
+missing module named multiprocessing.set_start_method - imported by multiprocessing (top-level), multiprocessing.spawn (top-level)
+missing module named multiprocessing.get_start_method - imported by multiprocessing (top-level), multiprocessing.spawn (top-level)
+missing module named greenlet - imported by sqlalchemy.util.concurrency (optional), sqlalchemy.util._concurrency_py3k (conditional)
+missing module named _overlapped - imported by asyncio.windows_events (top-level)
+missing module named asyncio.DefaultEventLoopPolicy - imported by asyncio (delayed, conditional), asyncio.events (delayed, conditional)
+missing module named pysqlcipher3 - imported by sqlalchemy.dialects.sqlite.pysqlcipher (delayed)
+missing module named sqlcipher3 - imported by sqlalchemy.dialects.sqlite.pysqlcipher (delayed, optional)
+missing module named psycopg2 - imported by sqlalchemy.dialects.postgresql.psycopg2 (delayed)
+missing module named 'psycopg.pq' - imported by sqlalchemy.dialects.postgresql.psycopg (delayed)
+missing module named 'psycopg.types' - imported by sqlalchemy.dialects.postgresql.psycopg (delayed, conditional)
+missing module named 'psycopg.adapt' - imported by sqlalchemy.dialects.postgresql.psycopg (delayed, conditional)
+missing module named psycopg - imported by sqlalchemy.dialects.postgresql.psycopg (delayed, conditional)
+missing module named asyncpg - imported by sqlalchemy.dialects.postgresql.asyncpg (delayed)
+missing module named oracledb - imported by sqlalchemy.dialects.oracle.oracledb (delayed, conditional)
+missing module named cx_Oracle - imported by sqlalchemy.dialects.oracle.cx_oracle (delayed)
+missing module named psutil._psutil_windows - imported by psutil (conditional)
+missing module named dummy_threading - imported by psutil._compat (optional), requests.cookies (optional)
+missing module named google.protobuf.pyext._message - imported by google.protobuf.pyext (conditional, optional), google.protobuf.internal.api_implementation (conditional, optional), google.protobuf.descriptor (conditional), google.protobuf.pyext.cpp_message (conditional)
+missing module named google.protobuf.enable_deterministic_proto_serialization - imported by google.protobuf (optional), google.protobuf.internal.api_implementation (optional)
+missing module named google.protobuf.internal._api_implementation - imported by google.protobuf.internal (optional), google.protobuf.internal.api_implementation (optional)
+missing module named simplejson - imported by requests.compat (conditional, optional)
+missing module named StringIO - imported by urllib3.packages.six (conditional)
+runtime module named urllib3.packages.six.moves - imported by http.client (top-level), urllib3.util.response (top-level), urllib3.connectionpool (top-level), urllib3.packages.six.moves.urllib (top-level), urllib3.util.queue (top-level)
+missing module named brotli - imported by urllib3.util.request (optional), urllib3.response (optional)
+missing module named brotlicffi - imported by urllib3.util.request (optional), urllib3.response (optional)
+missing module named Queue - imported by urllib3.util.queue (conditional)
+missing module named 'urllib3.packages.six.moves.urllib.parse' - imported by urllib3.request (top-level), urllib3.poolmanager (top-level)
+missing module named win_inet_pton - imported by socks (conditional, optional)
+missing module named cryptography.x509.UnsupportedExtension - imported by cryptography.x509 (optional), urllib3.contrib.pyopenssl (optional)
+missing module named 'OpenSSL.crypto' - imported by urllib3.contrib.pyopenssl (delayed)
+missing module named 'OpenSSL.SSL' - imported by urllib3.contrib.pyopenssl (top-level)
+missing module named OpenSSL - imported by urllib3.contrib.pyopenssl (top-level)
+missing module named chardet - imported by requests.compat (optional), requests (optional), requests.packages (optional)
+missing module named urllib3_secure_extra - imported by urllib3 (optional)
+missing module named grpc_reflection - imported by grpc (optional)
+missing module named grpc_health - imported by grpc (optional)
+missing module named grpc_tools - imported by grpc._runtime_protos (delayed, optional), grpc (optional)
+missing module named 'grpc_tools.protoc' - imported by grpc._runtime_protos (delayed, conditional)
+missing module named 'dns.resolver' - imported by mysql.connector.pooling (optional)
+missing module named dns - imported by mysql.connector.pooling (optional)
+missing module named asyncmy - imported by sqlalchemy.dialects.mysql.asyncmy (delayed)
+missing module named nacl - imported by pymysql._auth (delayed, optional)

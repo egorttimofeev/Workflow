@@ -1,0 +1,3 @@
+([('auth_window',
+   '/Users/egorttimofeev/GitHub/curs_project/dist/auth_window',
+   'EXECUTABLE')],)
