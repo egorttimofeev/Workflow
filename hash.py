@@ -1,5 +1,5 @@
 import bcrypt
-password = b'1'
+password = b'3'
  
 salt = bcrypt.gensalt()
 hashed = bcrypt.hashpw(password, salt)
