@@ -13,7 +13,6 @@ def retranslateUi(self):
         role_name = {
             1: "Сотрудник",
             2: "Начальник",
-            3: "Отдел кадров"
         }.get(self.user.Role, "Неизвестная роль")
 
         full_name = f"{self.user.First_name} {self.user.Last_name} {self.user.Surname}"

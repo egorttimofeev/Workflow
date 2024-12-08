@@ -26,7 +26,7 @@ class Database_Service():
 
     def add_activity_to_db(self, id_user, activity_name, duration, date, is_busy):
         try:
-            with self.__engine.begin() as conn:  # Используем транзакцию
+            with self.__engine.begin() as conn:
                 query = text("""
                     INSERT INTO Activities (id_user, activity_name, duration, date, is_busy)
                     VALUES (:id_user, :activity_name, :duration, :date, :is_busy)
@@ -36,11 +36,11 @@ class Database_Service():
                     "activity_name": activity_name,
                     "duration": duration,
                     "date": date,
-                    "is_busy": int(is_busy),  # Явное преобразование
+                    "is_busy": int(is_busy),
                 })
             return Query_Result(True, None)
         except Exception as e:
-            print(f"Ошибка добавления активности: {e}")  # Логируем ошибку
+            print(f"Ошибка добавления активности: {e}")
             return Query_Result(None, e)
 
     def get_activities_by_date(self, date):

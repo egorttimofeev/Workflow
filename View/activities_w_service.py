@@ -23,20 +23,17 @@ def add_activity(self):
         QtWidgets.QMessageBox.critical(self.centralwidget, "Ошибка", "Выберите тип активности (занятое или свободное время)!")
         return
 
-    # Определение is_busy
     is_busy = 1 if is_busy else 0
 
-    # Получение текущего авторизованного пользователя
     user_service = User_Service()
     current_user = user_service.authorised_user
 
-    if not current_user:  # Если пользователь не авторизован
+    if not current_user:
         QtWidgets.QMessageBox.critical(self.centralwidget, "Ошибка", "Пользователь не авторизован!")
         return
 
-    user_id = current_user.id_user  # Предполагаем, что у User есть атрибут Id_user
+    user_id = current_user.id_user
 
-    # Добавление в базу данных
     db_service = Database_Service()
     result = db_service.add_activity_to_db(user_id, activity_name, duration, date, is_busy)
 
@@ -44,15 +41,11 @@ def add_activity(self):
         QtWidgets.QMessageBox.critical(self.centralwidget, "Ошибка", f"Ошибка добавления активности: {result.error}")
         return
 
-    # Обновляем интерфейс только при успешном добавлении
     self.listWidget.addItem(f"{activity_name} - {duration} мин. {'(Занятое время)' if is_busy else '(Свободное время)'}")
     update_times(self, duration, is_busy)
     QtWidgets.QMessageBox.information(self.centralwidget, "Успех", "Занятие успешно добавлено в базу данных")
 
 def update_times(self, duration, is_busy):
-    """
-    Обновление времени в интерфейсе.
-    """
     self.total_time += duration
     if is_busy:
         self.busy_time += duration

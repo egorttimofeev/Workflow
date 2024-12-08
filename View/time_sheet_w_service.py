@@ -24,9 +24,9 @@ def show_employees(self):
     user_activities = {}
     
     for activity in activities:
-        user_id = activity[0]  # Индекс 0 для user_id
-        full_name = activity[1]  # Индекс 1 для full_name
-        duration = activity[2]  # Индекс 2 для duration
+        user_id = activity[0]
+        full_name = activity[1]
+        duration = activity[2]
         if user_id not in user_activities:
             user_activities[user_id] = {
                 'full_name': full_name,
@@ -97,7 +97,7 @@ class Ui_EmployeeDetails(object):
         free_time = 0
 
         for activity in activities:
-            self.listWidget.addItem(f"{activity[0]} - {activity[1]} мин.")  # Индексы для activity_name и duration
+            self.listWidget.addItem(f"{activity[0]} - {activity[1]} мин.")
             if activity[2]:  # Индекс для is_busy
                 work_time += activity[1]
             else:
