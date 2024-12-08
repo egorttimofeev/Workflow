@@ -45,10 +45,10 @@ def retranslateUi(self):
 
 def open_window(self, window_type):
     if window_type == User_Role.BOSS:
-        from View.View_win.time_sheet_window import MainWindow as AdminMainWindow
+        from View.time_sheet_window import MainWindow as AdminMainWindow
         self.new_window = AdminMainWindow()
     elif window_type == User_Role.EMPLOYEE:
-        from View.View_win.activities_window import MainWindow as EmployeeMainWindow
+        from View.activities_window import MainWindow as EmployeeMainWindow
         self.new_window = EmployeeMainWindow()
     self.new_window.show()
     self.close()

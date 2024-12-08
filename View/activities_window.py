@@ -1,5 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
-from View_service.activities_w_service import *
+from View.activities_w_service import *
 
 class Activities_Window(QtWidgets.QMainWindow):
     def __init__(self):

@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Service.db_service import *
 
 def open_user_info_window(self):
-    from View_win.user_info_window import UserInfoWindow
+    from View.user_info_window import UserInfoWindow
     self.user_info_window = UserInfoWindow()
     self.user_info_window.show()
     self.centralwidget.window().close()

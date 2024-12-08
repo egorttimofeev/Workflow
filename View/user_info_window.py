@@ -2,8 +2,8 @@ from PyQt6 import QtCore, QtWidgets
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from View_service.user_info_w_service import *
-from View_win.time_sheet_window import Time_Sheet
+from View.user_info_w_service import *
+from View.time_sheet_window import Time_Sheet
 
 class UserInfoWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -82,7 +82,7 @@ class UserInfoWindow(QtWidgets.QMainWindow):
             self.close()
 
     def open_activities_window(self):
-        from View_win.activities_window import Activities_Window
+        from View.activities_window import Activities_Window
         self.activities_window = Activities_Window()
         self.activities_window.show()
         self.close()

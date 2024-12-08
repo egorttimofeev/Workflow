@@ -68,7 +68,7 @@ def update_times(self, duration, is_busy):
     self.label_6.setText(f"Общее время: {total_hours} ч. {total_minutes} мин.")
 
 def open_user_info_window(self):
-    from View_win.user_info_window import UserInfoWindow  
+    from View.user_info_window import UserInfoWindow  
     self.user_info_window = UserInfoWindow()
     self.user_info_window.show()
     self.centralwidget.window().close()

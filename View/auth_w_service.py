@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from Service.user_service import *
-from View.View_win.user_info_window import UserInfoWindow
+from View.user_info_window import UserInfoWindow
 
 
 def open_user_info_window(self):
