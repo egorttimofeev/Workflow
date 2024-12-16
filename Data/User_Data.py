@@ -1,11 +1,16 @@
 from enum import IntEnum
 
-class User_Role(IntEnum):
+class UserRole(IntEnum):
     EMPLOYEE = 1
     BOSS = 2
 
 class User:
-    def __init__(self, id_user, Role, First_name, Last_name, Surname, Login, Password, Phone_number, Birthday, Passport, Place_of_registration, Place_of_residence, Family, Conscription, Education):
+    def __init__(
+        self, id_user, Role, First_name, Last_name, Surname, Login, Password, 
+        Phone_number, Birthday, Passport, Place_of_registration, 
+        Place_of_residence, Family, Conscription, Education
+    ):
+        #инициализация пользователя
         self.id_user = id_user
         self.__role = int(Role)
         self.First_name = str(First_name)
@@ -24,15 +29,19 @@ class User:
 
     @property
     def full_name(self):
+        #полное имя пользователя
         return f"{self.First_name} {self.Last_name} {self.Surname}"
 
     @property
     def role_name(self):
-        return User_Role(self.__role).name
+        #название роли пользователя
+        return UserRole(self.__role).name
 
     @property
     def Role(self):
+        #роль пользователя
         return self.__role
 
     def __get_role_name(self):
-        return User_Role(self.__role).name
+        #название роли пользователя (приватный метод)
+        return UserRole(self.__role).name

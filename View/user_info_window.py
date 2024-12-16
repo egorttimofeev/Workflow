@@ -1,20 +1,25 @@
-from PyQt6 import QtCore, QtWidgets
 import sys
 import os
+# Добавляем путь к родительскому каталогу для импорта модулей
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from View.user_info_w_service import *
-from View.time_sheet_window import Time_Sheet
+from PyQt6 import QtCore, QtWidgets
+from View.user_info_w_service import UserInfoService
 
 class UserInfoWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
-        self.User_Ui()
+        self.service = UserInfoService(self)
+        self.user_ui()
 
-    def User_Ui(self):
+    def user_ui(self):
+        # Устанавливаем размер окна
         self.resize(657, 430)
+        
+        # Создаем центральный виджет
         self.centralwidget = QtWidgets.QWidget(self)
         self.centralwidget.setObjectName("centralwidget")
 
+        # Создаем и настраиваем метки для отображения информации о пользователе
         self.label_full_name = QtWidgets.QLabel(self.centralwidget)
         self.label_full_name.setGeometry(QtCore.QRect(20, 40, 290, 30))
         self.label_full_name.setObjectName("label_full_name")
@@ -55,34 +60,28 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.label_place_of_residence.setGeometry(QtCore.QRect(350, 120, 300, 30))
         self.label_place_of_residence.setObjectName("label_place_of_residence")
 
+        # Создаем и настраиваем кнопки для различных действий
         self.button_tabel = QtWidgets.QPushButton("Табель учета", self.centralwidget)
         self.button_tabel.setGeometry(QtCore.QRect(510, 50, 141, 32))
         self.button_tabel.setObjectName("button_tabel")
-        self.button_tabel.clicked.connect(self.open_time_sheet_window)
+        self.button_tabel.setStyleSheet("background-color: lightblue;")
+        self.button_tabel.clicked.connect(self.service.open_time_sheet_window)
 
         self.button_add_activity = QtWidgets.QPushButton("Добавить занятия", self.centralwidget)
         self.button_add_activity.setGeometry(QtCore.QRect(510, 10, 141, 32))
         self.button_add_activity.setObjectName("button_add_activity")
-        self.button_add_activity.clicked.connect(self.open_activities_window)
+        self.button_add_activity.setStyleSheet("background-color: lightblue;")
+        self.button_add_activity.clicked.connect(self.service.open_activities_window)
 
+        self.button_all_workers = QtWidgets.QPushButton("Все работники", self.centralwidget)
+        self.button_all_workers.setGeometry(QtCore.QRect(20, 10, 148, 32))
+        self.button_all_workers.setObjectName("button_all_workers")
+        self.button_all_workers.setStyleSheet("background-color: lightblue;")
+        self.button_all_workers.clicked.connect(self.service.open_all_workers_window)
+
+        # Устанавливаем центральный виджет
         self.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(self)
-        self.statusbar.setObjectName("statusbar")
-        self.setStatusBar(self.statusbar)
 
-        retranslateUi(self)
+        # Переводим текст интерфейса
+        self.service.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)
-
-    def open_time_sheet_window(self):
-        user_service = User_Service()
-        current_user = user_service.authorised_user
-        if current_user:
-            self.time_sheet_window = Time_Sheet(current_user.Login)
-            self.time_sheet_window.show()
-            self.close()
-
-    def open_activities_window(self):
-        from View.activities_window import Activities_Window
-        self.activities_window = Activities_Window()
-        self.activities_window.show()
-        self.close()

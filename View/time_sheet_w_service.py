@@ -5,15 +5,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Service.db_service import *
 
 def open_user_info_window(self):
+    #окно информации о пользователе
     from View.user_info_window import UserInfoWindow
     self.user_info_window = UserInfoWindow()
     self.user_info_window.show()
     self.centralwidget.window().close()
 
 def show_employees(self):
-    self.listWidget.clear()
-    selected_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
-    db_service = Database_Service()
+    #список сотрудников на выбранную дату
+    self.list_widget.clear()
+    selected_date = self.calendar_widget.selectedDate().toString("yyyy-MM-dd")
+    db_service = DatabaseService()
     query_result = db_service.get_activities_by_date(selected_date)
     
     if query_result.error:
@@ -36,18 +38,20 @@ def show_employees(self):
 
     for user_id, data in user_activities.items():
         hours, minutes = divmod(data['total_time'], 60)
-        self.listWidget.addItem(f"{data['full_name']} - {hours} час. {minutes} мин.")
+        self.list_widget.addItem(f"{data['full_name']} - {hours} час. {minutes} мин.")
 
 def show_employee_details(self, item):
+    #детали сотрудника
     employee_name = item.text().split(" - ")[0]
-    selected_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+    selected_date = self.calendar_widget.selectedDate().toString("yyyy-MM-dd")
     self.details_window = QtWidgets.QMainWindow()
-    self.details_ui = Ui_EmployeeDetails()
+    self.details_ui = UiEmployeeDetails()
     self.details_ui.setupUi(self.details_window, employee_name, selected_date)
     self.details_window.show()
 
-class Ui_EmployeeDetails(object):
+class UiEmployeeDetails(object):
     def setupUi(self, DetailsWindow, employee_name, selected_date):
+    #пользовательский интерфейс для деталей сотрудника
         DetailsWindow.setObjectName("DetailsWindow")
         DetailsWindow.resize(400, 300)
         self.centralwidget = QtWidgets.QWidget(DetailsWindow)
@@ -85,7 +89,8 @@ class Ui_EmployeeDetails(object):
         DetailsWindow.setWindowTitle(_translate("DetailsWindow", "Информация о времени сотрудника за день"))
 
     def show_employee_activities(self, employee_name, selected_date):
-        db_service = Database_Service()
+        #активности сотрудника за выбранную дату
+        db_service = DatabaseService()
         query_result = db_service.get_activities_by_employee_and_date(employee_name, selected_date)
         
         if query_result.error:
@@ -98,7 +103,7 @@ class Ui_EmployeeDetails(object):
 
         for activity in activities:
             self.listWidget.addItem(f"{activity[0]} - {activity[1]} мин.")
-            if activity[2]:  # Индекс для is_busy
+            if activity[2]:
                 work_time += activity[1]
             else:
                 free_time += activity[1]
