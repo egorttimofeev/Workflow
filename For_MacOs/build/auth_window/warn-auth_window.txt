@@ -14,7 +14,7 @@ Types if import:
 IMPORTANT: Do NOT post this list to the issue-tracker. Use it as a basis for
             tracking down the missing module yourself. Thanks!
 
-missing module named _winapi - imported by ntpath (optional), encodings (delayed, conditional, optional), shutil (conditional), subprocess (conditional), multiprocessing.connection (optional), multiprocessing.spawn (delayed, conditional), multiprocessing.reduction (conditional), multiprocessing.shared_memory (conditional), multiprocessing.heap (conditional), multiprocessing.popen_spawn_win32 (top-level), asyncio.windows_events (top-level), asyncio.windows_utils (top-level), mimetypes (optional)
+missing module named _winapi - imported by encodings (delayed, conditional, optional), ntpath (optional), shutil (conditional), subprocess (conditional), multiprocessing.connection (optional), multiprocessing.spawn (delayed, conditional), multiprocessing.reduction (conditional), multiprocessing.shared_memory (conditional), multiprocessing.heap (conditional), multiprocessing.popen_spawn_win32 (top-level), asyncio.windows_events (top-level), asyncio.windows_utils (top-level), mimetypes (optional)
 missing module named winreg - imported by importlib._bootstrap_external (conditional), platform (delayed, optional), mimetypes (optional), urllib.request (delayed, conditional, optional), requests.utils (delayed, conditional, optional), pkg_resources._vendor.platformdirs.windows (delayed, optional)
 missing module named nt - imported by os (delayed, conditional, optional), ntpath (optional), shutil (conditional), importlib._bootstrap_external (conditional), ctypes (delayed, conditional)
 missing module named _frozen_importlib_external - imported by importlib._bootstrap (delayed), importlib (optional), importlib.abc (optional), zipimport (top-level)
@@ -55,9 +55,6 @@ missing module named oracledb - imported by sqlalchemy.dialects.oracle.oracledb 
 missing module named cx_Oracle - imported by sqlalchemy.dialects.oracle.cx_oracle (delayed)
 missing module named psutil._psutil_windows - imported by psutil (conditional)
 missing module named dummy_threading - imported by psutil._compat (optional), requests.cookies (optional)
-missing module named google.protobuf.pyext._message - imported by google.protobuf.pyext (conditional, optional), google.protobuf.internal.api_implementation (conditional, optional), google.protobuf.descriptor (conditional), google.protobuf.pyext.cpp_message (conditional)
-missing module named google.protobuf.enable_deterministic_proto_serialization - imported by google.protobuf (optional), google.protobuf.internal.api_implementation (optional)
-missing module named google.protobuf.internal._api_implementation - imported by google.protobuf.internal (optional), google.protobuf.internal.api_implementation (optional)
 missing module named simplejson - imported by requests.compat (conditional, optional)
 missing module named StringIO - imported by urllib3.packages.six (conditional)
 runtime module named urllib3.packages.six.moves - imported by http.client (top-level), urllib3.util.response (top-level), urllib3.connectionpool (top-level), urllib3.packages.six.moves.urllib (top-level), urllib3.util.queue (top-level)
@@ -72,6 +69,9 @@ missing module named 'OpenSSL.SSL' - imported by urllib3.contrib.pyopenssl (top-
 missing module named OpenSSL - imported by urllib3.contrib.pyopenssl (top-level)
 missing module named chardet - imported by requests.compat (optional), requests (optional), requests.packages (optional)
 missing module named urllib3_secure_extra - imported by urllib3 (optional)
+missing module named google.protobuf.pyext._message - imported by google.protobuf.pyext (conditional, optional), google.protobuf.internal.api_implementation (conditional, optional), google.protobuf.descriptor (conditional), google.protobuf.pyext.cpp_message (conditional)
+missing module named google.protobuf.enable_deterministic_proto_serialization - imported by google.protobuf (optional), google.protobuf.internal.api_implementation (optional)
+missing module named google.protobuf.internal._api_implementation - imported by google.protobuf.internal (optional), google.protobuf.internal.api_implementation (optional)
 missing module named grpc_reflection - imported by grpc (optional)
 missing module named grpc_health - imported by grpc (optional)
 missing module named grpc_tools - imported by grpc._runtime_protos (delayed, optional), grpc (optional)
