@@ -78,10 +78,16 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.button_all_workers.setObjectName("button_all_workers")
         self.button_all_workers.setStyleSheet("background-color: lightblue;")
         self.button_all_workers.clicked.connect(self.service.open_all_workers_window)
+        
+        #кнопка смены пароля
+        self.button_change_password = QtWidgets.QPushButton("Сменить пароль", self.centralwidget)
+        self.button_change_password.setGeometry(QtCore.QRect(510, 375, 141, 32))
+        self.button_change_password.setObjectName("button_change_password")
+        self.button_change_password.setStyleSheet("background-color: lightblue;")
+        self.button_change_password.clicked.connect(self.service.open_change_password_dialog)
 
-        # Устанавливаем центральный виджет
+        #центральный виджет
         self.setCentralWidget(self.centralwidget)
 
-        # Переводим текст интерфейса
         self.service.retranslateUi()
         QtCore.QMetaObject.connectSlotsByName(self)

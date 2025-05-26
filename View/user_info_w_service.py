@@ -1,11 +1,14 @@
-from PyQt6 import QtCore
+from PyQt6 import QtCore, QtWidgets
 import sys
 import os
+import bcrypt
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from Service.user_service import UserService, UserRole
 from View.time_sheet_window import TimeSheet
 from View.activities_window import ActivitiesWindow
+from Service.db_service import DatabaseService
 from View.all_workers_window import *
+from View.change_password_dialog import ChangePasswordDialog  # Импортируем новый класс
 
 class UserInfoService:
     def __init__(self, ui):
@@ -64,3 +67,55 @@ class UserInfoService:
     def open_all_workers_window(self):
         self.all_workers_window = AllWorkersWindow()
         self.all_workers_window.show()
+    
+    def open_change_password_dialog(self):
+        dialog = ChangePasswordDialog(self.ui)
+        if dialog.exec() == QtWidgets.QDialog.DialogCode.Accepted:
+            old_password, new_password = dialog.get_passwords()
+            self.change_password(old_password, new_password)
+    
+    def change_password(self, old_password, new_password):
+        # Проверяем корректность входных данных
+        if not old_password or not new_password:
+            QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Пароли не могут быть пустыми!")
+            return
+            
+        user = UserService().authorised_user
+        
+        # Получаем данные пользователя
+        db_service = DatabaseService()
+        
+        try:
+            # Получаем информацию о пользователе, включая пароль
+            query_result = db_service.get_worker_details(user.id_user)
+            if query_result.error or not query_result.result:
+                QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Не удалось получить данные пользователя!")
+                return
+                
+            # Пароль должен находиться под индексом 13
+            stored_hash = query_result.result[13]
+            
+            # Преобразуем хеш в байты, если это строка
+            stored_hash_bytes = stored_hash
+            if isinstance(stored_hash, str):
+                stored_hash_bytes = stored_hash.encode('utf-8')
+            
+            # Проверяем соответствие пароля хешу
+            if not bcrypt.checkpw(old_password.encode('utf-8'), stored_hash_bytes):
+                QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Текущий пароль указан неверно!")
+                return
+                
+            # Хешируем новый пароль
+            new_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+            
+            # Обновляем пароль в БД (сохраняем как строку)
+            result = db_service.update_user_password(user.id_user, new_hash.decode('utf-8'))
+            
+            if result.error:
+                QtWidgets.QMessageBox.critical(self.ui, "Ошибка", f"Не удалось изменить пароль: {result.error}")
+                return
+                
+            QtWidgets.QMessageBox.information(self.ui, "Успех", "Пароль успешно изменен!")
+            
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self.ui, "Ошибка", f"Произошла ошибка: {str(e)}")

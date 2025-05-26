@@ -79,16 +79,15 @@ class DatabaseService:
         except Exception as e:
             return QueryResult(None, e)
         
-    def add_user_to_db(self, id_user, first_name, last_name, surname, phone_number, birthday, passport, place_of_registration, place_of_residence, family, conscription, education, login, password, role):
+    def add_user_to_db(self, first_name, last_name, surname, phone_number, birthday, passport, place_of_registration, place_of_residence, family, conscription, education, login, password, role):
         #добавление пользователя в базу данных
         try:
             with self.__engine.begin() as conn:
                 query = text("""
-                    INSERT INTO Users (id_user, first_name, last_name, surname, phone_number, birthday, passport, place_of_registration, place_of_residence, family, conscription, education, login, password, role)
-                    VALUES (:id_user, :first_name, :last_name, :surname, :phone_number, :birthday, :passport, :place_of_registration, :place_of_residence, :family, :conscription, :education, :login, :password, :role)
+                    INSERT INTO Users (first_name, last_name, surname, phone_number, birthday, passport, place_of_registration, place_of_residence, family, conscription, education, login, password, role)
+                    VALUES (:first_name, :last_name, :surname, :phone_number, :birthday, :passport, :place_of_registration, :place_of_residence, :family, :conscription, :education, :login, :password, :role)
                 """)
                 conn.execute(query, {
-                    "id_user": id_user,
                     "first_name": first_name,
                     "last_name": last_name,
                     "surname": surname,
@@ -114,7 +113,7 @@ class DatabaseService:
         try:
             with self.__engine.connect() as conn:
                 query = text("""
-                    SELECT id_user, CONCAT(first_name, ' ', last_name, ' ', surname) as full_name
+                    SELECT CONCAT(first_name, ' ', last_name, ' ', surname) as full_name, id_user
                     FROM Users
                 """)
                 result = conn.execute(query).fetchall()
@@ -123,17 +122,19 @@ class DatabaseService:
             return QueryResult(None, e)
 
     def get_worker_details(self, worker_id):
-        #получение деталей сотрудника по ID
         try:
             with self.__engine.connect() as conn:
                 query = text("""
-                    SELECT id_user, first_name, last_name, surname, phone_number, birthday, passport, place_of_registration, place_of_residence, role, family, conscription, education
+                    SELECT first_name, last_name, surname, phone_number, birthday, passport, 
+                           place_of_registration, place_of_residence, role, family, 
+                           conscription, education, login, password
                     FROM Users
                     WHERE id_user = :worker_id
                 """)
                 result = conn.execute(query, {"worker_id": worker_id}).fetchone()
                 return QueryResult(result, None)
         except Exception as e:
+            print(f"Ошибка получения деталей работника: {e}")
             return QueryResult(None, e)
 
     def delete_worker(self, worker_id):
@@ -147,4 +148,31 @@ class DatabaseService:
                 conn.execute(query, {"worker_id": worker_id})
             return QueryResult(True, None)
         except Exception as e:
+            return QueryResult(None, e)
+        
+    def get_workers_count(self):
+        try:
+            with self.__engine.connect() as conn:
+                query = text("SELECT COUNT(*) FROM Users")
+                result = conn.execute(query).scalar()
+                return QueryResult(result, None)
+        except Exception as e:
+            return QueryResult(None, e)
+
+    def update_user_password(self, user_id, hashed_password):
+        """Обновление пароля пользователя в базе данных"""
+        try:
+            with self.__engine.begin() as conn:
+                query = text("""
+                    UPDATE Users 
+                    SET password = :password
+                    WHERE id_user = :user_id
+                """)
+                conn.execute(query, {
+                    "password": hashed_password,
+                    "user_id": user_id
+                })
+            return QueryResult(True, None)
+        except Exception as e:
+            print(f"Ошибка обновления пароля: {e}")
             return QueryResult(None, e)
