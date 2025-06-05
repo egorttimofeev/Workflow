@@ -160,7 +160,6 @@ class DatabaseService:
             return QueryResult(None, e)
 
     def update_user_password(self, user_id, hashed_password):
-        """Обновление пароля пользователя в базе данных"""
         try:
             with self.__engine.begin() as conn:
                 query = text("""
@@ -175,4 +174,16 @@ class DatabaseService:
             return QueryResult(True, None)
         except Exception as e:
             print(f"Ошибка обновления пароля: {e}")
+            return QueryResult(None, e)
+        
+    def check_login_exists(self, login):
+        try:
+            with self.__engine.connect() as conn:
+                query = text("""
+                    SELECT COUNT(*) FROM Users WHERE login = :login
+                """)
+                result = conn.execute(query, {"login": login}).scalar()
+                return QueryResult(result > 0, None)
+        except Exception as e:
+            print(f"Ошибка: {e}")
             return QueryResult(None, e)

@@ -34,7 +34,9 @@ class AddEmployeeWindow(QtWidgets.QDialog):
         self.layout.addWidget(self.input_phone_number, 3, 1)
 
         self.label_birthday = QtWidgets.QLabel("День рождения:")
-        self.input_birthday = QtWidgets.QLineEdit()
+        self.input_birthday = QtWidgets.QDateEdit()
+        self.input_birthday.setCalendarPopup(True)
+        self.input_birthday.setDisplayFormat("yyyy-MM-dd")
         self.layout.addWidget(self.label_birthday, 4, 0)
         self.layout.addWidget(self.input_birthday, 4, 1)
 
@@ -97,12 +99,13 @@ class AddEmployeeWindow(QtWidgets.QDialog):
         service = AddEmployeeService()
         role = self.combo_role.currentText()
         role_value = UserRole.EMPLOYEE if role == "Сотрудник" else UserRole.BOSS
+        birthday = self.input_birthday.date().toString("yyyy-MM-dd")
         result = service.add_employee(
             self.input_first_name.text(),
             self.input_last_name.text(),
             self.input_surname.text(),
             self.input_phone_number.text(),
-            self.input_birthday.text(),
+            birthday,
             self.input_passport.text(),
             self.input_place_of_registration.text(),
             self.input_place_of_residence.text(),

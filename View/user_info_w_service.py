@@ -75,40 +75,35 @@ class UserInfoService:
             self.change_password(old_password, new_password)
     
     def change_password(self, old_password, new_password):
-        # Проверяем корректность входных данных
         if not old_password or not new_password:
             QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Пароли не могут быть пустыми!")
             return
             
         user = UserService().authorised_user
         
-        # Получаем данные пользователя
         db_service = DatabaseService()
         
         try:
-            # Получаем информацию о пользователе, включая пароль
+            #получаем информацию о пользователе
             query_result = db_service.get_worker_details(user.id_user)
             if query_result.error or not query_result.result:
                 QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Не удалось получить данные пользователя!")
                 return
                 
-            # Пароль должен находиться под индексом 13
             stored_hash = query_result.result[13]
             
-            # Преобразуем хеш в байты, если это строка
             stored_hash_bytes = stored_hash
             if isinstance(stored_hash, str):
                 stored_hash_bytes = stored_hash.encode('utf-8')
             
-            # Проверяем соответствие пароля хешу
             if not bcrypt.checkpw(old_password.encode('utf-8'), stored_hash_bytes):
                 QtWidgets.QMessageBox.critical(self.ui, "Ошибка", "Текущий пароль указан неверно!")
                 return
                 
-            # Хешируем новый пароль
+            #хэшируем новый пароль
             new_hash = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
             
-            # Обновляем пароль в БД (сохраняем как строку)
+            #обновляем пароль в БД
             result = db_service.update_user_password(user.id_user, new_hash.decode('utf-8'))
             
             if result.error:
@@ -119,3 +114,10 @@ class UserInfoService:
             
         except Exception as e:
             QtWidgets.QMessageBox.critical(self.ui, "Ошибка", f"Произошла ошибка: {str(e)}")
+
+    def open_auth_window(self):
+        from auth_window import AuthWindow
+        auth_window = AuthWindow()
+        auth_window.show()
+
+        self.ui.close()

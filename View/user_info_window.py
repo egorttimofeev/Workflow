@@ -86,7 +86,13 @@ class UserInfoWindow(QtWidgets.QMainWindow):
         self.button_change_password.setStyleSheet("background-color: lightblue;")
         self.button_change_password.clicked.connect(self.service.open_change_password_dialog)
 
-        #центральный виджет
+        #кнопка выхода из аккаунта
+        self.logout_button = QtWidgets.QPushButton("Выход", self.centralwidget)
+        self.logout_button.setGeometry(QtCore.QRect(20, 375, 141, 32))
+        self.logout_button.setObjectName("logout_button")
+        self.logout_button.setStyleSheet("background-color: lightblue;")
+        self.logout_button.clicked.connect(self.service.open_auth_window)
+        
         self.setCentralWidget(self.centralwidget)
 
         self.service.retranslateUi()

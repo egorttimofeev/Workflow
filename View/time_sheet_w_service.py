@@ -340,7 +340,6 @@ class UiEmployeeDetails(object):
         
         dialog.setLayout(layout)
         
-        # Связываем кнопки с действиями
         print_button.clicked.connect(lambda: self.print_report(dialog))
         cancel_button.clicked.connect(dialog.reject)
         
@@ -387,7 +386,7 @@ class UiEmployeeDetails(object):
     
         if not activities_data:
             QtWidgets.QMessageBox.information(
-                self.centralwidget,
+                dialog,
                 "Информация",
                 "Нет данных для печати за выбранный период"
             )
@@ -398,7 +397,7 @@ class UiEmployeeDetails(object):
             printer = QPrinter()
             printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))
             
-            print_dialog = QPrintDialog(printer, self.centralwidget)
+            print_dialog = QPrintDialog(printer, dialog)
             if print_dialog.exec() == QtWidgets.QDialog.DialogCode.Accepted:
                 document = QTextDocument()
                 
@@ -423,8 +422,7 @@ class UiEmployeeDetails(object):
                     report_text += f"{activity['date']:<12} {activity['activity']:<30} {activity['duration']:<6} {activity['type']:<20}\n"
                     
                 report_text += "-" * 68 + "\n"
-                report_text += "\Информация:\n"
-                report_text += "-" * 68 + "\n"
+                report_text += "ИНФОРМАЦИЯ:\n"
                 report_text += f"Рабочее время:     {work_hours} ч. {work_minutes} мин.\n"
                 report_text += f"Свободное время:   {free_hours} ч. {free_minutes} мин.\n"
                 report_text += f"Общее время:       {total_hours} ч. {total_minutes} мин.\n"
@@ -444,8 +442,9 @@ class UiEmployeeDetails(object):
                 return
                 
         except Exception as e:
+            # Используем dialog как родительский виджет вместо self.centralwidget
             QtWidgets.QMessageBox.critical(
-                self.centralwidget,
+                dialog,
                 "Ошибка",
                 f"Не удалось выполнить печать: {str(e)}"
             )
