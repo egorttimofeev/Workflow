@@ -10,6 +10,7 @@ from Service.db_service import *
 from PyQt6.QtPrintSupport import QPrinter, QPrintDialog
 from PyQt6.QtGui import QTextDocument, QPageSize 
 from PyQt6.QtGui import QPainter
+import openpyxl.styles
 
 
 def open_user_info_window(self):
@@ -162,7 +163,7 @@ class UiEmployeeDetails(object):
         
         #путь для сохранения файла
         file_path, _ = QtWidgets.QFileDialog.getSaveFileName(
-            self.centralwidget,
+            dialog,
             "Сохранить файл",
             f"Табель_{self.employee_name}___{start_date}-{end_date}.xlsx",
             "Excel Files (*.xlsx)"
@@ -259,13 +260,27 @@ class UiEmployeeDetails(object):
                     adjusted_width = (max_length + 2) * 1.2
                     worksheet.column_dimensions[column].width = adjusted_width
         
+        # Явно задаем стиль для Excel с черным цветом шрифта
+        with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
+            df.to_excel(writer, sheet_name='Детали активностей', index=False)
+            
+            # Применяем форматирование к листам
+            workbook = writer.book
+            for sheet_name in workbook.sheetnames:
+                worksheet = workbook[sheet_name]
+                for row in worksheet.iter_rows():
+                    for cell in row:
+                        cell.font = openpyxl.styles.Font(color='000000')  # Черный цвет
+        
+        # Сначала принимаем диалог (закрываем его)
+        dialog.accept()
+        
+        # Затем показываем сообщение об успехе, используя None как родителя
         QtWidgets.QMessageBox.information(
-            self.centralwidget,
+            None,  # Используем None вместо self.centralwidget
             "Успех",
             f"Данные успешно экспортированы в файл:\n{file_path}"
         )
-        
-        dialog.accept()
 
     def retranslateUi(self, DetailsWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -438,13 +453,19 @@ class UiEmployeeDetails(object):
                     raise Exception("Не удалось инициализировать принтер")
                 
                 dialog.accept()
+                
+                QtWidgets.QMessageBox.information(
+                    None,
+                    "Печать",
+                    "Отчет успешно отправлен на печать"
+                )
             else:
                 return
                 
         except Exception as e:
-            # Используем dialog как родительский виджет вместо self.centralwidget
+
             QtWidgets.QMessageBox.critical(
-                dialog,
+                None, 
                 "Ошибка",
                 f"Не удалось выполнить печать: {str(e)}"
             )

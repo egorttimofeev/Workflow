@@ -1,2 +1,3 @@
 [database]
-db_url = mysql+pymysql://root:Admin_4871@localhost/curs_project
+#db_url = mysql+pymysql://root:Admin_4871@localhost/curs_project
+db_url = mysql+pymysql://user:Admin_4871@192.168.1.79/curs_project
