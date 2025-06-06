@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets, QtCore
+from PyQt6 import QtWidgets, QtCore, QtGui
 import sys
 import os
 import pandas as pd
@@ -422,31 +422,59 @@ class UiEmployeeDetails(object):
                 free_hours, free_minutes = divmod(total_free_time, 60)
                 total_hours, total_minutes = divmod(total_time, 60)
                 
-                #текстовый отчет
-                report_text = f"""
+                #Вместо простого текста используем HTML с принудительным черным цветом
+                #и шрифтом Calibri для Windows
+                report_html = f"""
+                <html>
+                <head>
+                    <style type="text/css">
+                        body {{
+                            font-family: Calibri, Arial, sans-serif;
+                            color: #000000;  /* Принудительный черный цвет */
+                            font-size: 10pt;
+                        }}
+                        pre {{
+                            font-family: Calibri, Arial, sans-serif;
+                            color: #000000;  /* Принудительный черный цвет */
+                        }}
+                    </style>
+                </head>
+                <body>
+                <pre>
 Табель учета рабочего времени сотрудника {self.employee_name} за период {start_date} - {end_date}
 
 АКТИВНОСТИ:
-"""  
-                #заголовок таблицы
-                report_text += f"{'Дата':<12} {'Активность':<30} {'Мин.':<6} {'Тип':<20}\n"
-                report_text += "-" * 68 + "\n"
+{'Дата':<12} {'Активность':<30} {'Мин.':<6} {'Тип':<20}
+{'-' * 68}
+"""
                 
-                #строки с данными
+                #Добавляем активности
                 for activity in activities_data:
-                    report_text += f"{activity['date']:<12} {activity['activity']:<30} {activity['duration']:<6} {activity['type']:<20}\n"
+                    report_html += f"{activity['date']:<12} {activity['activity']:<30} {activity['duration']:<6} {activity['type']:<20}\n"
                     
-                report_text += "-" * 68 + "\n"
-                report_text += "ИНФОРМАЦИЯ:\n"
-                report_text += f"Рабочее время:     {work_hours} ч. {work_minutes} мин.\n"
-                report_text += f"Свободное время:   {free_hours} ч. {free_minutes} мин.\n"
-                report_text += f"Общее время:       {total_hours} ч. {total_minutes} мин.\n"
+                report_html += f"""
+{'-' * 68}
+ИНФОРМАЦИЯ:
+Рабочее время:     {work_hours} ч. {work_minutes} мин.
+Свободное время:   {free_hours} ч. {free_minutes} мин.
+Общее время:       {total_hours} ч. {total_minutes} мин.
+</pre>
+                </body>
+                </html>
+                """
                 
-                #устанавливаем текст
-                document.setPlainText(report_text)
+                #Используем HTML вместо обычного текста
+                document.setHtml(report_html)
                 
+                # Устанавливаем шрифт для документа принудительно
+                from PyQt6.QtGui import QFont
+                font = QFont("Calibri", 10)
+                document.setDefaultFont(font)
+                
+                # Печать с явной настройкой черного цвета
                 painter = QPainter()
                 if painter.begin(printer):
+                    painter.setPen(QtGui.QColor(0, 0, 0))  # Черный цвет
                     document.drawContents(painter)
                     painter.end()
                 else:
@@ -459,11 +487,7 @@ class UiEmployeeDetails(object):
                     "Печать",
                     "Отчет успешно отправлен на печать"
                 )
-            else:
-                return
-                
         except Exception as e:
-
             QtWidgets.QMessageBox.critical(
                 None, 
                 "Ошибка",
