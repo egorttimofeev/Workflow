@@ -1,55 +1,103 @@
 # ⏱️ Workflow
 
-Программа для учета рабочего времени сотрудников, разработанная с поддержкой Windows и macOS.
+Приложение для учета рабочего времени сотрудников с поддержкой Windows и macOS, разработанное на **Python** с использованием **PyQt6** для графического интерфейса.
 
-![HTML](https://img.shields.io/badge/HTML5-Desktop-E34C26?style=for-the-badge&logo=html5&logoColor=white)
-![Database](https://img.shields.io/badge/Database-PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.7+-3776ab?style=for-the-badge&logo=python&logoColor=white)
+![PyQt6](https://img.shields.io/badge/PyQt6-Desktop-41CD52?style=for-the-badge&logo=qt&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ---
 
 ## 📋 Возможности
 
-- **Учет рабочего времени** — отслеживание активности сотрудников
-- **Управление пользователями** — хранение информации о сотрудниках
-- **История активности** — логирование всех видов деятельности
-- **Многоплатформность** — поддержка Windows и macOS
+- **Аутентификация** — система входа для сотрудников
+- **Учет рабочего времени** — отслеживание активности и длительности работы
+- **Управление сотрудниками** — просмотр и редактирование информации о персонал��
+- **Табель учета** — ведение учета всех видов деятельности
+- **Экспорт отчетов** — возможность печати и экспорта в PDF и Excel
+- **Персональные данные** — хранение полной информации о сотруднике
+
+---
+
+## 👥 Роли в системе
+
+| Роль | Возможности |
+|------|-------------|
+| **Сотрудник** | Просмотр своих данных, добавление активностей, просмотр статистики |
+| **Начальник** | Полное управление всеми сотрудниками, просмотр табелей, отчеты |
 
 ---
 
 ## 🛠 Технологический стек
 
-- Frontend: HTML5
-- Backend: PostgreSQL
-- Кроссплатформа: Windows & macOS
+- **Python 3.7+** — основной язык
+- **PyQt6** — графический интерфейс для Windows/macOS
+- **SQLAlchemy** — ORM для работы с БД
+- **PostgreSQL** — база данных
+- **ReportLab** — генерация PDF отчетов
+- **openpyxl** — экспорт в Excel
+- **pandas** — обработка табличных данных
 
 ---
 
 ## 💾 База данных
 
 ### Таблица Users (Пользователи)
-- `id_user` — первичный ключ
-- `First_name` — имя
-- `Last_name` — фамилия
-- `Surname` — отчество
-- `Login` — логин
-- `Password` — пароль (зашифрован)
-- `Role` — должность
-- `Phone_number` — телефон
-- `Birthday` — дата рождения
-- `Passport` — паспортные данные
-- `Place_of_registration` — место регистрации
-- `Place_of_residence` — место проживания
-- `Family` — семейное положение
-- `Conscription` — статус военного сбора
-- `Education` — образование
+| Поле | Тип | Описание |
+|------|-----|---------|
+| id_user | INT | Первичный ключ |
+| First_name | VARCHAR | Имя |
+| Last_name | VARCHAR | Фамилия |
+| Surname | VARCHAR | Отчество |
+| Login | VARCHAR | Логин (уникальный) |
+| Password | BLOB | Пароль (хешированный) |
+| Role | INT | Роль (1-сотрудник, 2-начальник) |
+| Phone_number | VARCHAR | Телефон |
+| Birthday | DATE | Дата рождения |
+| Passport | VARCHAR | Паспортные данные |
+| Place_of_registration | VARCHAR | Место регистрации |
+| Place_of_residence | VARCHAR | Место проживания |
+| Family | VARCHAR | Семейное положение |
+| Conscription | VARCHAR | Статус военного сбора |
+| Education | VARCHAR | Образование |
 
 ### Таблица Activities (Активность)
-- `id_activity` — первичный ключ
-- `id_user` — внешний ключ (ссылка на Users)
-- `activity_name` — вид активности
-- `duration` — продолжительность
-- `date` — дата
-- `is_busy` — статус занятости
+| Поле | Тип | Описание |
+|------|-----|---------|
+| id_activity | INT | Первичный ключ |
+| id_user | INT | Внешний ключ (User) |
+| activity_name | VARCHAR | Название активности |
+| duration | INT | Продолжительность (минуты) |
+| date | DATE | Дата активности |
+| is_busy | BOOLEAN | Статус занятости |
+
+---
+
+## 🏗️ Архитектура
+
+Проект использует трёхслойную архитектуру:
+
+```
+View/           # PyQt6 графический интерфейс
+├── auth_window.py
+├── user_info_window.py
+├── time_sheet_w_service.py
+└── ...
+
+Service/        # Бизнес-логика
+├── db_service.py
+├── user_service.py
+└── ...
+
+Data/           # Модели данных
+├── User_Data.py
+├── query_result_data.py
+└── ...
+```
+
+- **View** — пользовательский интерфейс на PyQt6
+- **Service** — бизнес-логика, работа с БД и сервисы
+- **Data** — модели данных и объекты доменной области
 
 ---
 
@@ -71,20 +119,32 @@
 
 ---
 
-## 🔧 Настройка базы данных
+## 🔧 Разработка (локально)
 
-Для подключения к собственной базе данных:
+### Требования
 
-1. Откройте файл `config.txt`
-2. Вставьте строку подключения к вашей БД
-3. Убедитесь, что в базе созданы две таблицы:
-   - `Users` — для хранения данных сотрудников
-   - `Activities` — для логирования активности
+- Python 3.7+
+- pip
 
-**Пример строки подключения:**
+### Установка зависимостей
+
+```bash
+pip install PyQt6 SQLAlchemy pandas reportlab openpyxl psycopg2-binary bcrypt
+```
+
+### Конфигурация БД
+
+Отредактируйте файл `config.txt`:
+
 ```ini
 [database]
-connection_string = postgresql://user:password@localhost:5432/workflow_db
+db_url = postgresql://user:password@localhost:5432/workflow_db
+```
+
+### Запуск
+
+```bash
+python auth_window.py
 ```
 
 ---
@@ -93,21 +153,59 @@ connection_string = postgresql://user:password@localhost:5432/workflow_db
 
 ```
 Workflow/
+├── auth_window.py                   # Окно авторизации
+├── 1.py                             # Утилиты
+├── config.txt                       # Конфигурация БД
+├── View/
+│   ├── auth_window.py              # Интерфейс авторизации
+│   ├── user_info_window.py         # Информация о пользователе
+│   ├── time_sheet_w_service.py     # Табель учета
+│   ├── worker_details_window.py    # Детали сотрудника
+│   └── change_password_dialog.py   # Смена пароля
+├── Service/
+│   ├── db_service.py               # Работа с БД
+│   ├── user_service.py             # Сервис пользователей
+│   └── ...
+├── Data/
+│   ├── User_Data.py                # Модель пользователя
+│   └── query_result_data.py        # Обёртка результатов
 ├── For_Windows/
 │   └── dist/
-│       └── Workflow.exe
-├── For_MacOs/
-│   └── dist/
-│       └── Workflow.app
-├── config.txt                 # Конфигурация БД
-└── README.md
+│       └── Workflow.exe            # Исполняемый файл Windows
+└── For_MacOs/
+    └── dist/
+        └── Workflow.app            # Исполняемый файл macOS
 ```
 
 ---
 
-## 💡 Использование
+## 📊 Основные функции
 
-1. **Запустите приложение** в зависимости от вашей ОС
-2. **Введите учетные данные** для входа
-3. **Управляйте активностью** сотрудников
-4. **Просматривайте отчеты** по рабочему времени
+### Авторизация
+- Вход по логину и паролю
+- Определение роли (сотрудник/начальник)
+- Переход на соответствующий интерфейс
+
+### Управление активностью
+- Добавление записей о работе
+- Просмотр истории активностей по датам
+- Расчет общего времени работы
+
+### Табель учета
+- Просмотр работников на выбранную дату
+- Детальная статистика по активностям
+- Печать отчетов
+- Экспорт в Excel
+
+### Профиль сотрудника
+- Просмотр полной информации
+- Изменение пароля
+- Просмотр личной статистики
+
+---
+
+## 🔐 Безопасность
+
+- Пароли хешируются с использованием **bcrypt**
+- Поддержка ролевого доступа
+- Изоляция данных по пользователям
